@@ -1,0 +1,40 @@
+<html>
+
+<head>
+<title>@title</title>
+</head>
+
+<body>
+
+<p>
+
+@async	{
+<text>
+één
+</text>
+	sync();
+}
+
+@async	{
+	setTimeout(function(){
+<text>
+twee
+</text>
+		sync();
+	}, 1000);
+}
+
+@async	{
+	setTimeout(function(){
+<text>
+drie
+</text>
+		sync();
+	}, 1000);
+}
+
+</p>
+
+</body>
+
+</html>

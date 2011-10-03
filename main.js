@@ -10,8 +10,8 @@ var JsHtmlParser = require('./lib/JsHtmlParser');
 var util = require('./lib/util');
 
 
-var cache = {};
 
+var cache = {};
 
 function compile(template, options) {
 
@@ -31,14 +31,26 @@ function compile(template, options) {
 			atEnd = true;
 		}
 		
-		compileAsync(template, options).call(null, locals, write, end);
+		compileAsync(template, options).call(null, write, end, locals);
 
-		assert.ok(atEnd, 'still not ended');
+		assert.ok(atEnd, 'not ended');
 		
 		return buffer;
 	}
 }
 
+function render(template, options) {
+	var options = util.extend({}, options);
+	var fn = options.filename 
+		? (cache[options.filename] || (cache[options.filename] = compile(template, options)))
+		: compile(template, options)
+		;
+	return fn.call(options.scope, options.locals || {});
+}
+
+
+
+var cacheAsync = {};
 
 function compileAsync(template, options) {
 	var fnSrc = '';
@@ -47,9 +59,9 @@ function compileAsync(template, options) {
 	}, options);
 	parser.end(template);
 
-	var fn = new Function('locals', 'util', 'write', 'end', 'tag', 'partial', 'body', 'with(locals){' + fnSrc + '}');
+	var fn = new Function('write', 'end', 'tag', 'partial', 'body', 'util', 'locals', 'with(locals){' + fnSrc + '}');
 
-	return function(locals, writeCallback, endCallback) {
+	return function(writeCallback, endCallback, locals) {
 
 		function tag(tagName) {
 			var tagAttributeSetList = [];
@@ -102,20 +114,23 @@ function compileAsync(template, options) {
 			write(locals.body);
 		}
 
-		fn(locals, util, writeCallback, endCallback, tag, partial, body);
+		fn(writeCallback, endCallback, tag, partial, body, util, locals);
 	};
 }
 
-function render(template, options) {
+function renderAsync(writeCallback, endCallback, template, options) {
 	var options = util.extend({}, options);
 	var fn = options.filename 
-		? (cache[options.filename] || (cache[options.filename] = compile(template, options)))
-		: compile(template, options)
+		? (cacheAsync[options.filename] || (cacheAsync[options.filename] = compileAsync(template, options)))
+		: compileAsync(template, options)
 		;
-	return fn.call(options.scope, options.locals || {});
+	fn.call(options.scope, writeCallback, endCallback, options.locals || {});
 }
 
+
 //exports
+exports.compileAsync = compileAsync;
+exports.renderAsync = renderAsync;
 exports.compile = compile;
 exports.render = render;
 
