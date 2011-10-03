@@ -17,20 +17,26 @@ function compile(template, options) {
 		fnSrc += data;
 	}, options);
 	parser.end(template);
-try {
-	var fn = new Function('locals', 'util', 'write', 'tag', 'with(locals){' + fnSrc + '}');
-}
-catch(e) {console.log(fnSrc);}
-	return function(locals) {
+
+	var fn = new Function('locals', 'util', 'write', 'end', 'tag', 'partial', 'body', 'with(locals){' + fnSrc + '}');
+
+	return function(locals, endCallback) {
 		var buffer = '';
 
-		fn(
-		locals
-		, util
-		, function(data) {
-			buffer += util.str(data);
+		function write()	{
+			var argumentCount = arguments.length;
+			for(var argumentIndex = 0; argumentIndex < argumentCount; argumentIndex++){
+				var argument = arguments[argumentIndex];
+				buffer += util.str(argument);
+			}
 		}
-		, function(tagName) {
+		function end()	{
+			write.apply(null, arguments);
+			
+			endCallback && endCallback.call(null);
+		}
+
+		function tag(tagName) {
 			var tagAttributeSetList = [];
 			var tagContentList = [];
 			var argumentCount = arguments.length;
@@ -75,7 +81,17 @@ catch(e) {console.log(fnSrc);}
 			else{
 				buffer += ' />';
 			}
-		});
+		}
+
+		function partial() {
+			write(locals.partial.apply(null, arguments));
+		}
+
+		function body() {
+			write(locals.body);
+		}
+
+		fn(locals, util, write, end, tag, partial, body);
 
 		return buffer;
 	};
