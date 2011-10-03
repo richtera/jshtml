@@ -87,6 +87,21 @@ function render(template, options) {
 	return fn.call(options.scope, options.locals || {});
 }
 
+
+
+//require
+require.extensions['.jshtml'] = function(module, fileName) {
+    var template = fs.readFileSync(fileName, 'utf-8');
+	var fn = compile(template, {});
+	var src = 'console.log(1);exports.a = "b";';
+    return module._compile(src, fileName);
+}
+
+
+
+//exports
 exports.compile = compile;
 exports.render = render;
+
+
 
