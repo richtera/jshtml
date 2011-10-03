@@ -5,24 +5,20 @@
  */
 
 var fs = require('fs');
+var assert = require('assert');
 var JsHtmlParser = require('./lib/JsHtmlParser');
 var util = require('./lib/util');
 
 
 var cache = {};
 
+
 function compile(template, options) {
-	var fnSrc = '';
-	var parser = new JsHtmlParser(function(data) {
-		fnSrc += data;
-	}, options);
-	parser.end(template);
 
-	var fn = new Function('locals', 'util', 'write', 'end', 'tag', 'partial', 'body', 'with(locals){' + fnSrc + '}');
-
-	return function(locals, endCallback) {
+	return function(locals)	{
 		var buffer = '';
-
+		var atEnd = false;
+	
 		function write()	{
 			var argumentCount = arguments.length;
 			for(var argumentIndex = 0; argumentIndex < argumentCount; argumentIndex++){
@@ -32,9 +28,28 @@ function compile(template, options) {
 		}
 		function end()	{
 			write.apply(null, arguments);
-			
-			endCallback && endCallback.call(null);
+			atEnd = true;
 		}
+		
+		compileAsync(template, options).call(null, locals, write, end);
+
+		assert.ok(atEnd, 'still not ended');
+		
+		return buffer;
+	}
+}
+
+
+function compileAsync(template, options) {
+	var fnSrc = '';
+	var parser = new JsHtmlParser(function(data) {
+		fnSrc += data;
+	}, options);
+	parser.end(template);
+
+	var fn = new Function('locals', 'util', 'write', 'end', 'tag', 'partial', 'body', 'with(locals){' + fnSrc + '}');
+
+	return function(locals, writeCallback, endCallback) {
 
 		function tag(tagName) {
 			var tagAttributeSetList = [];
@@ -54,14 +69,12 @@ function compile(template, options) {
 				}
 			}
 
-			buffer += '<';
-			buffer += tagName;
+			writeCallback.call(null, '<', tagName);
 			tagAttributeSetList.forEach(function(tagAttributeSet) {
-				buffer += ' ';
-				buffer += util.htmlAttributeEncode(tagAttributeSet);
+				writeCallback.call(null, ' ', util.htmlAttributeEncode(tagAttributeSet));
 			});
 			if(hasContent) {
-				buffer += '>';
+				writeCallback.call(null, '>');
 
 				tagContentList.forEach(function(tagContent) {
 					switch(typeof tagContent) {
@@ -70,16 +83,14 @@ function compile(template, options) {
 						break;
 
 						default:
-						buffer += util.htmlLiteralEncode(tagContent);
+						writeCallback.call(null, util.htmlLiteralEncode(tagContent));
 					}
 				});
 
-				buffer += '</';
-				buffer += tagName;
-				buffer += '>';
+				writeCallback.call(null, '</', tagName, '>');
 			}
 			else{
-				buffer += ' />';
+				writeCallback.call(null, ' />');
 			}
 		}
 
@@ -91,9 +102,7 @@ function compile(template, options) {
 			write(locals.body);
 		}
 
-		fn(locals, util, write, end, tag, partial, body);
-
-		return buffer;
+		fn(locals, util, writeCallback, endCallback, tag, partial, body);
 	};
 }
 
