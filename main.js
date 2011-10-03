@@ -17,64 +17,64 @@ function compile(template, options) {
 		fnSrc += data;
 	}, options);
 	parser.end(template);
-	var fn = new Function('locals', 'context', 'with(locals)with(context){' + fnSrc + '}');
-
+try {
+	var fn = new Function('locals', 'util', 'write', 'tag', 'with(locals){' + fnSrc + '}');
+}
+catch(e) {console.log(fnSrc);}
 	return function(locals) {
 		var buffer = '';
 
-		fn(locals
-		, {
-			write: function(data) {
-				buffer += util.str(data);
+		fn(
+		locals
+		, util
+		, function(data) {
+			buffer += util.str(data);
+		}
+		, function(tagName) {
+			var tagAttributeSetList = [];
+			var tagContentList = [];
+			var argumentCount = arguments.length;
+			var hasContent = false;
+			for(var argumentIndex = 1; argumentIndex < argumentCount; argumentIndex++){
+				var argument = arguments[argumentIndex];
+				switch(typeof argument) {
+					case 'object':
+					tagAttributeSetList.push(argument);
+					break;
+
+					default:
+					hasContent = true;
+					tagContentList.push(argument);
 				}
-			, tag: function(tagName) {
-				var tagAttributeSetList = [];
-				var tagContentList = [];
-				var argumentCount = arguments.length;
-				var hasContent = false;
-				for(var argumentIndex = 1; argumentIndex < argumentCount; argumentIndex++){
-					var argument = arguments[argumentIndex];
-					switch(typeof argument) {
-						case 'object':
-						tagAttributeSetList.push(argument);
+			}
+
+			buffer += '<';
+			buffer += tagName;
+			tagAttributeSetList.forEach(function(tagAttributeSet) {
+				buffer += ' ';
+				buffer += util.htmlAttributeEncode(tagAttributeSet);
+			});
+			if(hasContent) {
+				buffer += '>';
+
+				tagContentList.forEach(function(tagContent) {
+					switch(typeof tagContent) {
+						case 'function':
+						tagContent();
 						break;
 
 						default:
-						hasContent = true;
-						tagContentList.push(argument);
+						buffer += util.htmlLiteralEncode(tagContent);
 					}
-				}
-
-				buffer += '<';
-				buffer += tagName;
-				tagAttributeSetList.forEach(function(tagAttributeSet) {
-					buffer += ' ';
-					buffer += util.htmlAttributeEncode(tagAttributeSet);
 				});
-				if(hasContent) {
-					buffer += '>';
 
-					tagContentList.forEach(function(tagContent) {
-						switch(typeof tagContent) {
-							case 'function':
-							tagContent();
-							break;
-
-							default:
-							buffer += util.htmlLiteralEncode(tagContent);
-						}
-					});
-
-					buffer += '</';
-					buffer += tagName;
-					buffer += '>';
-				}
-				else{
-					buffer += ' />';
-				}
-				
+				buffer += '</';
+				buffer += tagName;
+				buffer += '>';
 			}
-			, htmlEncode: util.htmlEncode
+			else{
+				buffer += ' />';
+			}
 		});
 
 		return buffer;
