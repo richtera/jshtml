@@ -15,33 +15,33 @@ Check out the examples for more information.
 
 	<html>
 	<head>
-		<title>@title</title>
+		<title>@locals.title</title>
 	</head>
-
+	
 	<body>
-
+	
 	<ul class="Task">
-	@taskList.forEach(function(task, index) {
+	@locals.taskList.forEach(function(task, index) {
 		<li class="@(index % 2 ? "Odd" : "Even")">
 		@tag('a', {href: '/task/' + task.id}, task.name)
 		</li>
 		});
 	</ul>
-
+	
 	<ul class="Task">
-	@for(var taskIndex = 0, taskCount = taskList.length; taskIndex < taskCount; taskIndex ++){
-		var task = taskList[taskIndex];
+	@for(var taskIndex = 0, taskCount = locals.taskList.length; taskIndex < taskCount; taskIndex ++){
+		var task = locals.taskList[taskIndex];
 		<li class="@(taskIndex % 2 ? "Odd" : "Even")">
 		<a href="/task/@task.id">@task.name</a>
 		</li>
 	}
 	</ul>
-
+	
 	<p>
 	if you like it, let me know!<br />
 	- <a href="mailto:elmerbulthuis@gmail.com">elmerbulthuis@gmail.com</a><br />
 	</p>
-
+	
 	</body>
 	</html>
 
