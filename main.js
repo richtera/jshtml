@@ -59,7 +59,7 @@ function compileAsync(template, options) {
 	}, options);
 	parser.end(template);
 
-	var fn = new Function('write', 'end', 'tag', 'partial', 'body', 'util', 'locals', 'with(locals){' + fnSrc + '}');
+	var fn = new Function('write', 'end', 'tag', 'partial', 'body', 'util', 'locals', fnSrc);
 
 	return function(writeCallback, endCallback, locals) {
 

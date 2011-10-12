@@ -1,12 +1,12 @@
 <html>
 <head>
-    <title>@title</title>
+    <title>@locals.title</title>
 </head>
 
 <body class="">
 
 <ul class="Task">
-@taskList.forEach(function(task,index) {
+@locals.taskList.forEach(function(task,index) {
     <li class="@(index % 2 ? 'Odd' : 'Even')">@task.name</li>
     });
 </ul>

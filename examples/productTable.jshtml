@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>@title</title>
+<title>@locals.title</title>
 </head>
 
 <body>
@@ -11,7 +11,7 @@
 </header>
 
 <section>
-@if(productList && productList.length) {
+@if(locals.productList && locals.productList.length) {
     <table>
         <thead>
             <tr>
@@ -20,8 +20,8 @@
             </tr>
         </thead>
         <tbody>
-        @for(var productIndex = 0; productIndex < productList.length; productIndex++)   {
-            var product = productList[productIndex];
+        @for(var productIndex = 0; productIndex < locals.productList.length; productIndex++)   {
+            var product = locals.productList[productIndex];
             <tr>
                 <td>@(product.name)</td>
                 <td>@(product.price)</td>

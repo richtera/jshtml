@@ -9,7 +9,7 @@
 <html>
 
 <head>
-<title>@title</title>
+<title>@locals.title</title>
 </head>
 
 <body>
