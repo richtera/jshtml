@@ -98,8 +98,5 @@ fs.readdirSync(srcDir).forEach(function(file)	{
 
 next();
 
-console.log(iterationCount + ' iterations');
-console.log('writes\tms\tname');
-
 
 
