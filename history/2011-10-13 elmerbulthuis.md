@@ -81,4 +81,10 @@ Release
 version 0.1.5 to npm
 
 
+New feature
+----------
+You can now use the (async) templates via require! great!
+
+
+
 
