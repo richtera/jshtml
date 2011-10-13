@@ -106,11 +106,11 @@ function compileAsync(template, options) {
 		}
 
 		function partial() {
-			write(locals.partial.apply(this, arguments));
+			writeCallback.call(this, locals.partial.apply(this, arguments));
 		}
 
 		function body() {
-			write(locals.body);
+			writeCallback.call(this, locals.body);
 		}
 
 		fn.call(this, writeCallback, endCallback, tag, partial, body, util, locals);
