@@ -20,7 +20,7 @@ no longer works, and should be converted to this:
 New feature
 ----------
 
-the control blocks are no longer required, so this:
+control brackets are no longer required, so this:
 
 	if(true)	{
 		<p>true</p>
