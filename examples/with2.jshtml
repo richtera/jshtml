@@ -1,0 +1,10 @@
+@with(locals)
+@with(this)
+<html>
+<head>
+<title>@title</title>
+</head>
+
+<body>
+</body>
+</html>

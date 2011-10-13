@@ -113,7 +113,7 @@ function compileAsync(template, options) {
 			write(locals.body);
 		}
 
-		fn(writeCallback, endCallback, tag, partial, body, util, locals);
+		fn.call(this, writeCallback, endCallback, tag, partial, body, util, locals);
 	};
 }
 
