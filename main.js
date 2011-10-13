@@ -10,7 +10,6 @@ var JsHtmlParser = require('./lib/JsHtmlParser');
 var util = require('./lib/util');
 
 
-
 var cache = {};
 
 function compile(template, options) {
@@ -27,11 +26,11 @@ function compile(template, options) {
 			}
 		}
 		function end()	{
-			write.apply(null, arguments);
+			write.apply(this, arguments);
 			atEnd = true;
 		}
 		
-		compileAsync(template, options).call(null, write, end, locals);
+		compileAsync(template, options).call(this, write, end, locals);
 
 		assert.ok(atEnd, 'not ended');
 		
@@ -81,12 +80,12 @@ function compileAsync(template, options) {
 				}
 			}
 
-			writeCallback.call(null, '<', tagName);
+			writeCallback.call(this, '<', tagName);
 			tagAttributeSetList.forEach(function(tagAttributeSet) {
-				writeCallback.call(null, ' ', util.htmlAttributeEncode(tagAttributeSet));
+				writeCallback.call(this, ' ', util.htmlAttributeEncode(tagAttributeSet));
 			});
 			if(hasContent) {
-				writeCallback.call(null, '>');
+				writeCallback.call(this, '>');
 
 				tagContentList.forEach(function(tagContent) {
 					switch(typeof tagContent) {
@@ -95,19 +94,19 @@ function compileAsync(template, options) {
 						break;
 
 						default:
-						writeCallback.call(null, util.htmlLiteralEncode(tagContent));
+						writeCallback.call(this, util.htmlLiteralEncode(tagContent));
 					}
 				});
 
-				writeCallback.call(null, '</', tagName, '>');
+				writeCallback.call(this, '</', tagName, '>');
 			}
 			else{
-				writeCallback.call(null, ' />');
+				writeCallback.call(this, ' />');
 			}
 		}
 
 		function partial() {
-			write(locals.partial.apply(null, arguments));
+			write(locals.partial.apply(this, arguments));
 		}
 
 		function body() {

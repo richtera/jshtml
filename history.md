@@ -70,3 +70,11 @@ or this:
 	<body>
 	</body>
 
+
+Breaking change
+----------
+Removed the whitespace filter option. It was a little buggy. Maybe it will return in the future, when there is a need.
+
+
+
+

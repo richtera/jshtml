@@ -10,7 +10,10 @@ fs.readdirSync(srcDir).forEach(function(file) {
 	console.log('[' + match[1] + ']');
 
 	jsHtml.renderAsync(write, end, fs.readFileSync(srcDir + match[0], 'utf8'), {
-		locals: {
+		scope: {
+			title: 'This'
+		}
+		, locals: {
 			title:'Test'
 			, stoer: true
 			, lief: true

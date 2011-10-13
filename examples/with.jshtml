@@ -20,6 +20,7 @@
 <div>
 
 @with({one:'een', two:'twee', three:'drie'})
+@with({one:'ichi', two:'ni'})
 	<div>
     <p>
 @one

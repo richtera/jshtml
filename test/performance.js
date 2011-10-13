@@ -19,7 +19,10 @@ function begin()	{
 	timeOffset = new Date();
 
 	jsHtml.renderAsync(write, end, template.content, {
-		locals: {
+		scope: {
+			title: 'This'
+		}
+		, locals: {
 			title:'Test'
 			, stoer: true
 			, lief: true
@@ -77,7 +80,7 @@ function next()	{
 
 function finish()	{
 	console.log(iterationCount + ' iterations');
-	console.log('writes\tms\tname');
+	console.log('writes\tms\texample');
 	templateList.sort(function(a, b) {return a.totalDuration - b.totalDuration});
 	templateList.forEach(function(template)	{
 		console.log(template.writeCount + '\t' + template.totalDuration + '\t' + template.name);

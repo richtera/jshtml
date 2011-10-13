@@ -4,7 +4,7 @@ var jsHtml = require('../main');
 var util = require('../lib/util');
 var srcDir = __dirname + '/../examples/';
 
-var whitespaceRegex = /\s/g;
+var whitespaceRegex = /\s+/g;
 
 fs.readdirSync(srcDir).forEach(function(file) {
     var match = /(.+)\.html$/i.exec(file);
@@ -30,7 +30,10 @@ fs.readdirSync(srcDir).forEach(function(file) {
 	}
 	
 	jsHtml.renderAsync(write, end, fs.readFileSync(srcDir + match[1] + '.jshtml', 'utf8'), {
-		locals: {
+		scope: {
+			title: 'This'
+		}
+		, locals: {
         	title:'Test'
         	, stoer: true
         	, lief: true
