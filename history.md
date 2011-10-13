@@ -17,7 +17,7 @@ no longer works, and should be converted to this:
 	} while(false);
 	
 
-New feauture
+New feature
 ----------
 
 the control blocks are no longer required, so this:
