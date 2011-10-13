@@ -1,19 +1,21 @@
+@with(locals)
 <html>
 <head>
     <title>Test</title>
 </head>
 
 <body>
-@if(locals.stoer && locals.lief) {
+@if(stoer && lief) {
     <p>
 	Yeah!
     </p>
     }
 
-@if(locals.stoer && locals.lief)
+@if(stoer && lief)
     <p>
 	Yeah!
     </p>
 
 </body>
 </html>
+
