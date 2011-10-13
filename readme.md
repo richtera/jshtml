@@ -89,16 +89,16 @@ Create a layout template (/views/layout.jshtml):
 	</head>
 	
 	<body>
-	@write(body);
+	@body();
 	</body>
 	</html>
 
 
 Create an index template (/views/index.jshtml):
 	
-	<h1>@title</h1>
+	<h1>@locals.title</h1>
 	<p>
-	@message
+	@locals.message
 	</p>
 
 
