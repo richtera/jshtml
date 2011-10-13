@@ -20,7 +20,7 @@ var jsHtml = require('../main');
 	console.log(arguments.callee);
 	var actual = jsHtml.render(''
     + '<html>\n'
-    + '<head><title>@title</title></head>\n'
+    + '<head><title>@locals.title</title></head>\n'
     + '<body>\n'
     + '<a href="mailto:elmerbulthuis@gmail.com">Elmer Bulthuis</a>\n'
     + '</body>\n'
@@ -40,7 +40,7 @@ var jsHtml = require('../main');
 	console.log(arguments.callee);
 	var actual = jsHtml.render(''
     + '<html>\n'
-    + '<head><title>~title</title></head>\n'
+    + '<head><title>~locals.title</title></head>\n'
     + '<body>\n'
     + 'o~yeah\n'
     + '</body>\n'
@@ -59,7 +59,7 @@ var jsHtml = require('../main');
 	console.log(arguments.callee);
 	var actual = jsHtml.render(''
     + '<html>\n'
-    + '<head><title>:title</title></head>\n'
+    + '<head><title>:locals.title</title></head>\n'
     + '<body>\n'
     + '</body>\n'
     + '</html>\n'
@@ -77,7 +77,7 @@ var jsHtml = require('../main');
 	console.log(arguments.callee);
 	var actual = jsHtml.render(''
     + '<html>\n'
-    + '<head><title>::title</title></head>\n'
+    + '<head><title>::locals.title</title></head>\n'
     + '<body>\n'
     + '</body>\n'
     + '</html>\n'
@@ -95,7 +95,7 @@ var jsHtml = require('../main');
 	console.log(arguments.callee);
 	var actual = jsHtml.render(''
     + '<html>\n'
-    + '<head><title>:::title</title></head>\n'
+    + '<head><title>:::locals.title</title></head>\n'
     + '<body>\n'
     + '</body>\n'
     + '</html>\n'
@@ -114,7 +114,7 @@ var jsHtml = require('../main');
 	console.log(arguments.callee);
 	var actual = jsHtml.render(''
     + '<html>\n'
-    + '<head><title>%title</title></head>\n'
+    + '<head><title>%locals.title</title></head>\n'
     + '<body>\n'
     + '</body>\n'
     + '</html>\n'
@@ -132,7 +132,7 @@ var jsHtml = require('../main');
 	console.log(arguments.callee);
 	var actual = jsHtml.render(''
     + '<html>\n'
-    + '<head><title>*title</title></head>\n'
+    + '<head><title>*locals.title</title></head>\n'
     + '<body>\n'
     + '</body>\n'
     + '</html>\n'
@@ -150,7 +150,7 @@ var jsHtml = require('../main');
 	console.log(arguments.callee);
 	var actual = jsHtml.render(''
     + '<html>\n'
-    + '<head><title>->title</title></head>\n'
+    + '<head><title>->locals.title</title></head>\n'
     + '<body>\n'
     + '</body>\n'
     + '</html>\n'
@@ -168,7 +168,7 @@ var jsHtml = require('../main');
 	console.log(arguments.callee);
 	var actual = jsHtml.render(''
     + '<html>\n'
-    + '<head><title>(-:title</title></head>\n'
+    + '<head><title>(-:locals.title</title></head>\n'
     + '<body>\n'
     + '</body>\n'
     + '</html>\n'
@@ -186,7 +186,7 @@ var jsHtml = require('../main');
 	console.log(arguments.callee);
 	var actual = jsHtml.render(''
     + '<html>\n'
-    + '<head><title>//title</title></head>\n'
+    + '<head><title>//locals.title</title></head>\n'
     + '<body>\n'
     + '</body>\n'
     + '</html>\n'

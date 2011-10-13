@@ -1,7 +1,7 @@
 <html>
 
 @tag('head', function() {
-	tag('title', title)
+	tag('title', locals.title)
 });
 
 @tag('body', function(){

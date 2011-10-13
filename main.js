@@ -5,88 +5,126 @@
  */
 
 var fs = require('fs');
+var assert = require('assert');
 var JsHtmlParser = require('./lib/JsHtmlParser');
 var util = require('./lib/util');
+
+
 var cache = {};
 
 function compile(template, options) {
+
+	return function(locals)	{
+		var buffer = '';
+		var atEnd = false;
+	
+		function write()	{
+			var argumentCount = arguments.length;
+			for(var argumentIndex = 0; argumentIndex < argumentCount; argumentIndex++){
+				var argument = arguments[argumentIndex];
+				buffer += util.str(argument);
+			}
+		}
+		function end()	{
+			write.apply(this, arguments);
+			atEnd = true;
+		}
+		
+		compileAsync(template, options).call(this, write, end, locals);
+
+		assert.ok(atEnd, 'not ended');
+		
+		return buffer;
+	}
+}
+
+function render(template, options) {
+	var options = util.extend({}, options);
+	var fn = options.filename 
+		? (cache[options.filename] || (cache[options.filename] = compile(template, options)))
+		: compile(template, options)
+		;
+	return fn.call(options.scope, options.locals || {});
+}
+
+
+
+var cacheAsync = {};
+
+function compileAsync(template, options) {
 	var fnSrc = '';
 	var parser = new JsHtmlParser(function(data) {
 		fnSrc += data;
 	}, options);
 	parser.end(template);
-	var fn = new Function('locals', 'context', 'with(locals)with(context){' + fnSrc + '}');
 
-	return function(locals) {
-		var buffer = '';
+	var fn = new Function('write', 'end', 'tag', 'partial', 'body', 'util', 'locals', fnSrc);
 
-		fn(locals
-		, {
-			write: function(data) {
-				buffer += data;
+	return function(writeCallback, endCallback, locals) {
+
+		function tag(tagName) {
+			var tagAttributeSetList = [];
+			var tagContentList = [];
+			var argumentCount = arguments.length;
+			var hasContent = false;
+			for(var argumentIndex = 1; argumentIndex < argumentCount; argumentIndex++){
+				var argument = arguments[argumentIndex];
+				switch(typeof argument) {
+					case 'object':
+					tagAttributeSetList.push(argument);
+					break;
+
+					default:
+					hasContent = true;
+					tagContentList.push(argument);
 				}
-			, tag: function(tagName) {
-				var tagAttributeSetList = [];
-				var tagContentList = [];
-				var argumentCount = arguments.length;
-				var hasContent = false;
-				for(var argumentIndex = 1; argumentIndex < argumentCount; argumentIndex++){
-					var argument = arguments[argumentIndex];
-					switch(typeof argument) {
-						case 'object':
-						tagAttributeSetList.push(argument);
+			}
+
+			writeCallback.call(this, '<', tagName);
+			tagAttributeSetList.forEach(function(tagAttributeSet) {
+				writeCallback.call(this, ' ', util.htmlAttributeEncode(tagAttributeSet));
+			});
+			if(hasContent) {
+				writeCallback.call(this, '>');
+
+				tagContentList.forEach(function(tagContent) {
+					switch(typeof tagContent) {
+						case 'function':
+						tagContent();
 						break;
 
 						default:
-						hasContent = true;
-						tagContentList.push(argument);
+						writeCallback.call(this, util.htmlLiteralEncode(tagContent));
 					}
-				}
-
-				buffer += '<';
-				buffer += tagName;
-				tagAttributeSetList.forEach(function(tagAttributeSet) {
-					buffer += ' ';
-					buffer += util.htmlAttributeEncode(tagAttributeSet);
 				});
-				if(hasContent) {
-					buffer += '>';
 
-					tagContentList.forEach(function(tagContent) {
-						switch(typeof tagContent) {
-							case 'function':
-							tagContent();
-							break;
-
-							default:
-							buffer += util.htmlLiteralEncode(tagContent);
-						}
-					});
-
-					buffer += '</';
-					buffer += tagName;
-					buffer += '>';
-				}
-				else{
-					buffer += ' />';
-				}
-				
+				writeCallback.call(this, '</', tagName, '>');
 			}
-			, htmlEncode: util.htmlEncode
-		});
+			else{
+				writeCallback.call(this, ' />');
+			}
+		}
 
-		return buffer;
+		function partial() {
+			writeCallback.call(this, locals.partial.apply(this, arguments));
+		}
+
+		function body() {
+			writeCallback.call(this, locals.body);
+		}
+
+		fn.call(this, writeCallback, endCallback, tag, partial, body, util, locals);
 	};
 }
 
-function render(template, options) {
+function renderAsync(writeCallback, endCallback, template, options) {
 	var options = util.extend({}, options);
-	var fn = options.filename ? (cache[options.filename] || (cache[options.filename] = compile(
-			template, options)))
-			: compile(template, options);
-	return fn.call(options.scope, options.locals || {});
+	var fn = options.filename 
+		? (cacheAsync[options.filename] || (cacheAsync[options.filename] = compileAsync(template, options)))
+		: compileAsync(template, options)
+		;
+	fn.call(options.scope, writeCallback, endCallback, options.locals || {});
 }
-
 
 
 //require
@@ -97,9 +135,9 @@ require.extensions['.jshtml'] = function(module, fileName) {
     return module._compile(src, fileName);
 }
 
-
-
 //exports
+exports.compileAsync = compileAsync;
+exports.renderAsync = renderAsync;
 exports.compile = compile;
 exports.render = render;
 

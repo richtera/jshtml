@@ -1,15 +1,21 @@
+@with(locals)
 <html>
 <head>
     <title>Test</title>
 </head>
 
 <body>
-@{var n = 10;}
-@while(n > 0) {
+@if(stoer && lief) {
     <p>
-@n
+	Yeah!
     </p>
-n--;
     }
+
+@if(stoer && lief)
+    <p>
+	Yeah!
+    </p>
+
 </body>
 </html>
+

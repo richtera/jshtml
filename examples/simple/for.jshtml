@@ -4,10 +4,16 @@
 </head>
 
 <body>
-@if(stoer && lief) {
+@for(var n = 1; n <= 3; n++ ) {
     <p>
-Yeah!
+@n
     </p>
     }
+
+@for(var n = 1; n <= 3; n++ )
+    <p>
+@n
+    </p>
+
 </body>
 </html>
