@@ -3,6 +3,7 @@ var fs = require('fs');
 var jsHtml = require('../main');
 var util = require('../lib/util');
 var srcDir = __dirname + '/../examples/';
+var testData = require('./testData');
 
 var templateList	=	[];
 var templateIndex	=	0;
@@ -18,27 +19,7 @@ var template;
 function begin()	{
 	timeOffset = new Date();
 
-	jsHtml.renderAsync(write, end, template.content, {
-		scope: {
-			title: 'This'
-		}
-		, locals: {
-			title:'Test'
-			, stoer: true
-			, lief: true
-			, youlikeit:true
-			, taskList: [
-				{id: 1, name: 'build a house'}
-				, {id: 2, name: 'run a marathon'}
-				, {id: 3, name: 'grow a beard'}
-			]
-		    , productList: [
-		    	{id: 1, name: 'Blend', price: 9.5}
-		    	, {id: 1, name: 'I LOVE FAKE', price: 12.5}
-		    	, {id: 1, name: 'Gup', price: 19.5 }
-		    ]
-		}
-	});
+	jsHtml.renderAsync(write, end, template.content, testData);
 }
 
 function write()	{

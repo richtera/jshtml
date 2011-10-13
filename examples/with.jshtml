@@ -1,12 +1,17 @@
+@with(locals)
 <html>
+
+@with(this)
 <head>
-    <title>Test</title>
+    <title>@title</title>
 </head>
 
 <body>
 
+
+@with(this)
 <div>
-@with({one:'een', two:'twee', three:'drie'}) {
+@with(numberList) {
     <p>
 @one
     </p>
@@ -16,11 +21,12 @@
     <p>
 @three
     </p>
-    }
-<div>
+}
+</div>
 
-@with({one:'een', two:'twee', three:'drie'})
-@with({one:'ichi', two:'ni'})
+@with(numberList)
+@with({two:'zwei', three:'drei'})
+@with({three:'trois'})
 	<div>
     <p>
 @one
@@ -34,5 +40,6 @@
 	</div>
 
 </body>
+
 </html>
 
