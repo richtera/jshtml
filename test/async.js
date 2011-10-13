@@ -33,6 +33,7 @@ var template = ''
 + '</html>\n'
 ;
 
+
 var expect = ''
 + '<html>\n'
 + '<head>\n'
@@ -43,15 +44,14 @@ var expect = ''
 + '\n'
 + '<p>\n'
 + 'A\n'
-+ '</p>\n'
-+ '\n'
++ '</p>'
 + '<p>\n'
 + 'B\n'
-+ '</p>\n'
-+ '\n'
++ '</p>'
 + '</body>\n'
 + '</html>\n'
 ;
+
 
 var actual = '';
 function write(){
