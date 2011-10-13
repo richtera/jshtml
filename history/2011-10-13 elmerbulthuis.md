@@ -76,5 +76,9 @@ Breaking change
 Removed the whitespace filter option. It was a little buggy. Maybe it will return in the future, when there is a need.
 
 
+Release
+----------
+version 0.1.5 to npm
+
 
 
