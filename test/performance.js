@@ -1,9 +1,8 @@
 var assert = require('assert');
+var path = require('path');
 var fs = require('fs');
 var jsHtml = require('../main');
 var util = require('../lib/util');
-var srcDir = __dirname + '/../examples/';
-var testData = require('./testData');
 
 var templateList	=	[];
 var templateIndex	=	0;
@@ -19,7 +18,7 @@ var template;
 function begin()	{
 	timeOffset = new Date();
 
-	jsHtml.renderAsync(write, end, template.content, testData);
+	jsHtml.renderAsync(write, end, template.content, template.options);
 }
 
 function write()	{
@@ -68,20 +67,48 @@ function finish()	{
 	});
 }
 
-fs.readdirSync(srcDir).forEach(function(file)	{
-	var match = /(.+)\.jshtml$/i.exec(file);
-	if (!match) return;
+
+
+
+
+
+function loadDirectory(dirPath, options)	{
+	try	{
+		options = util.extend({}, options, JSON.parse(fs.readFileSync(dirPath + '.json', 'utf-8')));
+	}
+	catch(ex){}
 	
-	var content = fs.readFileSync(srcDir + match[1] + '.jshtml', 'utf8');
+	fs.readdirSync(dirPath).forEach(function(subPath) {
+		var filePath = dirPath + '/' + subPath;
+		var fileStat = fs.statSync(filePath);
+		if(fileStat.isDirectory()) loadDirectory(filePath, options);
+		if(fileStat.isFile()) loadFile(filePath, options);
+	});
+}
+
+function loadFile(filePath, options)	{
+	var match = /((.*\/)?(.+))\.jshtml$/i.exec(filePath);
+	if (!match) return;
+
+	try	{
+		options = util.extend({}, options, JSON.decode(fs.readFileSync(match[1] + '.json')));
+	}
+	catch(ex){}
+	
+	var content = fs.readFileSync(match[1] + '.jshtml', 'utf-8');
 	templateList.push({
-		name: match[1]
-		, content: content
-		, totalDuration: 0
-		, writeCount: 0
+		name: match[3]
+		, content:	content
+		, options:	util.extend({}, options)
+		, totalDuration:	0
+		, writeCount:	0
 	});
 	templateCount++;
-});
+}
+
+
+loadDirectory(path.normalize(__dirname + '/../examples'), {});
+
 
 next();
-
 

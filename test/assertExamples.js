@@ -1,18 +1,37 @@
 var assert = require('assert');
+var path = require('path');
 var fs = require('fs');
 var jsHtml = require('../main');
 var util = require('../lib/util');
-var srcDir = __dirname + '/../examples/';
-var testData = require('./testData');
 
 var whitespaceRegex = /\s+/g;
 
-fs.readdirSync(srcDir).forEach(function(file) {
-    var match = /(.+)\.html$/i.exec(file);
-    if (!match) return;
+function runDirectory(dirPath, options)	{
+	try	{
+		options = util.extend({}, options, JSON.parse(fs.readFileSync(dirPath + '.json', 'utf-8')));
+	}
+	catch(ex){}
 	
-	console.log('[' + match[1] + ']');
-	var expect = fs.readFileSync(srcDir + match[1] + '.html', 'utf8');
+	fs.readdirSync(dirPath).forEach(function(subPath) {
+		var filePath = dirPath + '/' + subPath;
+		var fileStat = fs.statSync(filePath);
+		if(fileStat.isDirectory()) runDirectory(filePath, options);
+		if(fileStat.isFile()) runFile(filePath, options);
+	});
+}
+
+function runFile(filePath, options)	{
+	var match = /((.*\/)?(.+))\.html$/i.exec(filePath);
+	if (!match) return;
+
+	console.log('[' + match[3] + ']');
+
+	try	{
+		options = util.extend({}, options, JSON.decode(fs.readFileSync(match[1] + '.json')));
+	}
+	catch(ex){}
+
+	var expect = fs.readFileSync(match[1] + '.html', 'utf-8');
 	var actual = '';
 	function write(){
 		var argumentCount = arguments.length;
@@ -23,15 +42,16 @@ fs.readdirSync(srcDir).forEach(function(file) {
 	}
 	function end(){
 		write.apply(this, arguments);
-	
+
 		expect = expect.replace(whitespaceRegex, '');
 		actual = actual.replace(whitespaceRegex, '');
 
 		assert.equal(actual, expect);
 	}
-	
-	jsHtml.renderAsync(write, end, fs.readFileSync(srcDir + match[1] + '.jshtml', 'utf8'), testData);
-	
-});
+
+	jsHtml.renderAsync(write, end, fs.readFileSync(match[1] + '.jshtml', 'utf-8'), options);
+}
+
+runDirectory(path.normalize(__dirname + '/../examples'), {});
 
 
