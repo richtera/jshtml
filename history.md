@@ -1,6 +1,9 @@
 2011-10-13
 ==========
 
+Breaking change
+----------
+
 require ; after dowhile. this
 
 	do	{
@@ -13,6 +16,9 @@ no longer works, and should be converted to this:
 	<p>bla</p>
 	} while(false);
 	
+
+New feauture
+----------
 
 the control blocks are no longer required, so this:
 
@@ -30,6 +36,9 @@ could now also be written as this:
 	else
 		<p>false</p>
 
+
+Breaking change
+----------
 
 removed with(locals) statement from the function body. this:
 
