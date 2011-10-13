@@ -28,7 +28,11 @@ function runFile(filePath, options)	{
 	}
 	catch(ex){}
 
-	require(match[1]);
+	function write() {}
+	function end() {}
+
+	var fn = require(match[1]);
+	fn.call(options.scope, write, end, options.locals);	
 }
 
 runDirectory(path.normalize(__dirname + '/../examples', {}));
