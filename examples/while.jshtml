@@ -4,12 +4,23 @@
 </head>
 
 <body>
-@{var n = 10;}
+@{
+var n = 3;
+var m = 3;
+}
+
 @while(n > 0) {
     <p>
 @n
     </p>
 n--;
     }
+
+@while(m > 0)
+    <p>
+@m
+@{m--;}
+    </p>
+
 </body>
 </html>

@@ -4,6 +4,8 @@
 </head>
 
 <body>
+
+<div>
 @with({one:'een', two:'twee', three:'drie'}) {
     <p>
 @one
@@ -15,5 +17,20 @@
 @three
     </p>
     }
+<div>
+
+@with({one:'een', two:'twee', three:'drie'})
+	<div>
+    <p>
+@one
+    </p>
+    <p>
+@two
+    </p>
+    <p>
+@three
+    </p>
+	</div>
+
 </body>
 </html>

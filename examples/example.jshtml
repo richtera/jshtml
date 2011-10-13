@@ -1,4 +1,4 @@
-@with(locals)	{
+@with(locals)
 <html>
 <head>
     <title>@locals.title</title>
@@ -25,4 +25,4 @@
 
 </body>
 </html>
-}
+

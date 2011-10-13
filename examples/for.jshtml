@@ -4,10 +4,16 @@
 </head>
 
 <body>
-@for(var n = 1; n <= 10; n++ ) {
+@for(var n = 1; n <= 3; n++ ) {
     <p>
 @n
     </p>
     }
+
+@for(var n = 1; n <= 3; n++ )
+    <p>
+@n
+    </p>
+
 </body>
 </html>
