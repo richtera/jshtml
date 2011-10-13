@@ -1,6 +1,8 @@
 2011-10-13
 ==========
 
+Sunny with a few clouds @ Rotterdam, Holland
+
 Breaking change
 ----------
 
