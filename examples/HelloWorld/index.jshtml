@@ -1,13 +1,14 @@
+with(@locals)
 <article>
 
-<h1>@locals.title</h1>
+<h1>@title</h1>
 
 <p>
-@locals.message
+@message
 </p>
 
 <ul>
-@locals.list.forEach(function(item, index)	{
+@list.forEach(function(item, index)	{
 	<li>@item</li>
 });
 </ul>
