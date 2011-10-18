@@ -24,7 +24,7 @@ function runFile(filePath, options)	{
 	console.log('[' + match[3] + ']');
 
 	try	{
-		options = util.extend({}, options, JSON.decode(fs.readFileSync(match[1] + '.json')));
+		options = util.extend({}, options, JSON.parse(fs.readFileSync(match[1] + '.json')));
 	}
 	catch(ex){}
 

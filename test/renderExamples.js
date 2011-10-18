@@ -18,13 +18,13 @@ function runDirectory(dirPath, options)	{
 }
 
 function runFile(filePath, options)	{
-	var match = /((.*\/)?(.+))\.html$/i.exec(filePath);
+	var match = /((.*\/)?(.+))\.jshtml$/i.exec(filePath);
 	if (!match) return;
 
 	console.log('[' + match[3] + ']');
 
 	try	{
-		options = util.extend({}, options, JSON.decode(fs.readFileSync(match[1] + '.json')));
+		options = util.extend({}, options, JSON.parse(fs.readFileSync(match[1] + '.json')));
 	}
 	catch(ex){}
 

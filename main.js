@@ -58,10 +58,17 @@ function compileAsync(template, options) {
 	}, options);
 	parser.end(template);
 
-	var fn = new Function('write', 'end', 'tag', 'partial', 'body', 'util', 'locals', fnSrc);
+	var fn = new Function('write', 'end', 'tag', 'writePartial', 'writeBody', 'util', 'locals', fnSrc);
 
 	return function(writeCallback, endCallback, locals) {
 
+		function write(){
+			writeCallback.apply(this, arguments);
+		}		
+		function end(){
+			endCallback.apply(this, arguments);
+		}		
+		
 		function tag(tagName) {
 			var tagAttributeSetList = [];
 			var tagContentList = [];
@@ -105,15 +112,15 @@ function compileAsync(template, options) {
 			}
 		}
 
-		function partial() {
+		function writePartial() {
 			writeCallback.call(this, locals.partial.apply(this, arguments));
 		}
 
-		function body() {
+		function writeBody() {
 			writeCallback.call(this, locals.body);
 		}
 
-		fn.call(this, writeCallback, endCallback, tag, partial, body, util, locals);
+		fn.call(this, write, end, tag, writePartial, writeBody, util, locals);
 	};
 }
 
