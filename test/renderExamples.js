@@ -8,7 +8,7 @@ function runDirectory(dirPath, options)	{
 		options = util.extend({}, options, JSON.parse(fs.readFileSync(dirPath + '.json', 'utf-8')));
 	}
 	catch(ex){}
-	
+
 	fs.readdirSync(dirPath).forEach(function(subPath) {
 		var filePath = dirPath + '/' + subPath;
 		var fileStat = fs.statSync(filePath);
@@ -34,6 +34,11 @@ function runFile(filePath, options)	{
 	jsHtml.renderAsync(write, end, fs.readFileSync(match[1] + '.jshtml', 'utf-8'), options);
 }
 
-runDirectory(path.normalize(__dirname + '/../examples'), {});
+runDirectory(path.normalize(__dirname + '/../examples'), {
+	locals:	{
+		body: ''
+		, partial: function(){}
+	}
+});
 
 

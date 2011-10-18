@@ -31,6 +31,6 @@ function runFile(filePath, options)	{
 	jsHtml.compile(fs.readFileSync(match[1] + '.jshtml', 'utf-8'), options);
 }
 
-runDirectory(path.normalize(__dirname + '/../examples', {}));
+runDirectory(path.normalize(__dirname + '/../examples'));
 
 

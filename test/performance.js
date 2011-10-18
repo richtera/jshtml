@@ -107,7 +107,12 @@ function loadFile(filePath, options)	{
 }
 
 
-loadDirectory(path.normalize(__dirname + '/../examples'), {});
+loadDirectory(path.normalize(__dirname + '/../examples'), {
+	locals:	{
+		body: ''
+		, partial: function(){}
+	}
+});
 
 
 next();
