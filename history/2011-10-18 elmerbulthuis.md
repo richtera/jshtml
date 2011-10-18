@@ -105,4 +105,9 @@ If with(locals) is default it may seem like all of locals members are really loc
 
 
 
+Release
+----------
+
+released v0.1.6 to npm
+
 
