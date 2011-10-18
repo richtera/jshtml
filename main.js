@@ -13,7 +13,6 @@ var util = require('./lib/util');
 var cache = {};
 
 function compile(template, options) {
-
 	return function(locals)	{
 		var buffer = '';
 		var atEnd = false;
@@ -52,11 +51,27 @@ function render(template, options) {
 var cacheAsync = {};
 
 function compileAsync(template, options) {
+	var options = util.extend({with:null}, options);
 	var fnSrc = '';
 	var parser = new JsHtmlParser(function(data) {
 		fnSrc += data;
 	}, options);
 	parser.end(template);
+
+	if(options.with){
+		var contextList = Array.isArray(options.with)
+		? options.with
+		: [options.with]
+		;
+		
+		fnSrc = '{' + fnSrc + '}';
+		contextList.forEach(function(context){
+			if(typeof context == 'string')	{
+				fnSrc = 'with(' + context + ')' + fnSrc;
+			}
+		});
+	}
+	
 
 	var fn = new Function('write', 'end', 'tag', 'writePartial', 'writeBody', 'util', 'locals', fnSrc);
 
