@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'Oceania Bold';
+	src: url('fonts/oceania-bold-webfont.eot');
+    src: url('fonts/oceania-bold-webfont.eot?iefix') format('eot'),
+         url('fonts/oceania-bold-webfont.woff') format('woff'),
+         url('fonts/oceania-bold-webfont.ttf') format('truetype'),
+         url('fonts/oceania-bold-webfont.svg#webfontfWdf0rpN') format('svg');
+    font-size: 2em;
+}
+
+@font-face {
+    font-family: 'Oceania Light';
+	src: url('fonts/oceania-light-webfont.eot');
+    src: url('fonts/oceania-light-webfont.eot?iefix') format('eot'),
+         url('fonts/oceania-light-webfont.woff') format('woff'),
+         url('fonts/oceania-light-webfont.ttf') format('truetype'),
+         url('fonts/oceania-light-webfont.svg#webfontfWdf0rpN') format('svg');
+    font-size: 2em;
+}
+
+@font-face {
+    font-family: 'Oceania Medium';
+	src: url('fonts/oceania-medium-webfont.eot');
+    src: url('fonts/oceania-medium-webfont.eot?iefix') format('eot'),
+         url('fonts/oceania-medium-webfont.woff') format('woff'),
+         url('fonts/oceania-medium-webfont.ttf') format('truetype'),
+         url('fonts/oceania-medium-webfont.svg#webfontfWdf0rpN') format('svg');
+    font-size: 2em;
+}
+
+@font-face {
+    font-family: 'Oceania Regular';
+	src: url('fonts/oceania-regular-webfont.eot');
+    src: url('fonts/oceania-regular-webfont.eot?iefix') format('eot'),
+         url('fonts/oceania-regular-webfont.woff') format('woff'),
+         url('fonts/oceania-regular-webfont.ttf') format('truetype'),
+         url('fonts/oceania-regular-webfont.svg#webfontfWdf0rpN') format('svg');
+    font-size: 2em;
+}
+
