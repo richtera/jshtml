@@ -4,6 +4,7 @@ var fs = require('fs');
 var srcDir = __dirname + '/test';
 
 var testList = [];
+
 function next()	{
 	var test = testList.shift();
 	if(!test) return;
@@ -15,9 +16,9 @@ function next()	{
 	var proc = cp.spawn('node', [test], {cwd: srcDir, customFds: [process.stdin.fd, process.stdout.fd, process.stderr.fd]});
 	
 	proc.on('exit', function (code, signal) {
-		//assert.ifError(code);
-		
 		console.log();
+
+		assert.ifError(code);
 
 		next();
 	});
