@@ -31,7 +31,7 @@ function compile(template, options) {
 		}
 		
 		compileAsync(template, options).call(this, write, end, locals);
-
+ 
 		assert.ok(atEnd, 'not ended');
 		
 		return buffer;
@@ -57,6 +57,17 @@ function compileAsync(template, options) {
 		fnSrc += data;
 	}, options);
 	parser.end(template);
+
+	if(options.with)	{
+		fnSrc = '{' + fnSrc + '}';
+		var contextList = Array.isArray()
+		? options.with
+		: [options.with]
+		;
+		contextList.forEach(function(context){
+			fnSrc = 'with(' + context + ')' + fnSrc;
+		});
+	}
 
 	var fn = new Function('write', 'end', 'tag', 'writePartial', 'writeBody', 'util', 'locals', fnSrc);
 
