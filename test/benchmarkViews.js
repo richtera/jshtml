@@ -73,10 +73,14 @@ function finish()	{
 
 
 function loadDirectory(dirPath, options)	{
+	var extendOptionsJson = '{}';
 	try	{
-		options = util.extend({}, options, JSON.parse(fs.readFileSync(dirPath + '.json', 'utf-8')));
+		extendOptionsJson = fs.readFileSync(dirPath + '.json', 'utf-8');
 	}
-	catch(ex){}
+	catch(ex)	{
+	}
+	var extendOptions = JSON.parse(extendOptionsJson);
+	var options = util.extend({}, options, extendOptions);
 	
 	fs.readdirSync(dirPath).forEach(function(subPath) {
 		var filePath = dirPath + '/' + subPath;
@@ -90,10 +94,16 @@ function loadFile(filePath, options)	{
 	var match = /((.*\/)?(.+))\.jshtml$/i.exec(filePath);
 	if (!match) return;
 
+
+	var extendOptionsJson = '{}';
 	try	{
-		options = util.extend({}, options, JSON.decode(fs.readFileSync(match[1] + '.json')));
+		extendOptionsJson = fs.readFileSync(match[1] + '.json', 'utf-8');
 	}
-	catch(ex){}
+	catch(ex)	{
+	}
+	var extendOptions = JSON.parse(extendOptionsJson);
+	var options = util.extend({}, options, extendOptions);
+
 	
 	var content = fs.readFileSync(match[1] + '.jshtml', 'utf-8');
 	templateList.push({

@@ -7,10 +7,14 @@ var util = require('../lib/util');
 var whitespaceRegex = /\s+/g;
 
 function runDirectory(dirPath, options)	{
+	var extendOptionsJson = '{}';
 	try	{
-		options = util.extend({}, options, JSON.parse(fs.readFileSync(dirPath + '.json', 'utf-8')));
+		extendOptionsJson = fs.readFileSync(dirPath + '.json', 'utf-8');
 	}
-	catch(ex){}
+	catch(ex)	{
+	}
+	var extendOptions = JSON.parse(extendOptionsJson);
+	var options = util.extend({}, options, extendOptions);
 	
 	fs.readdirSync(dirPath).forEach(function(subPath) {
 		var filePath = dirPath + '/' + subPath;
@@ -26,10 +30,17 @@ function runFile(filePath, options)	{
 
 	console.log('[' + match[3] + ']');
 
+
+	var extendOptionsJson = '{}';
 	try	{
-		options = util.extend({}, options, JSON.decode(fs.readFileSync(match[1] + '.json')));
+		extendOptionsJson = fs.readFileSync(match[1] + '.json', 'utf-8');
 	}
-	catch(ex){}
+	catch(ex)	{
+	}
+	var extendOptions = JSON.parse(extendOptionsJson);
+	var options = util.extend({}, options, extendOptions);
+
+
 
 	var expect = fs.readFileSync(match[1] + '.html', 'utf-8');
 	var actual = '';
