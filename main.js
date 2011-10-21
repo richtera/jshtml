@@ -127,6 +127,12 @@ function renderAsync(writeCallback, endCallback, template, options) {
 }
 
 
+//require
+require.extensions['.jshtml'] = function(module, fileName) {
+    var template = fs.readFileSync(fileName, 'utf-8');
+	module.exports = compileAsync(template, {});
+}
+
 //exports
 exports.compileAsync = compileAsync;
 exports.renderAsync = renderAsync;
