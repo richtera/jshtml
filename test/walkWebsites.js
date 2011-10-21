@@ -5,51 +5,27 @@ var path = require('path');
 var fs = require('fs');
 var util = require('../lib/util');
 
-function runDirectory(dirPath, options)	{
-	var extendOptionsJson = '{}';
+var websites = [];
 
-	try	{
-		extendOptionsJson = fs.readFileSync(dirPath + '.json', 'utf-8');
-	}
-	catch(ex)	{
-	}
-	
-	var extendOptions = JSON.parse(extendOptionsJson);
-	var options = util.extend({}, options, extendOptions);
+function next()	{
+	var website = websites.shift();
+	if(!website) return;
 
-	var hasServer = false;
-	var serverPath = dirPath + '/' + options.server + '.js';
-	var serverStat = null;
-
-	try	{
-		var serverStat = fs.statSync(serverPath);
-	}
-	catch(ex)	{
-	}
-
-	if(serverStat && serverStat.isFile())	{
-		runServer(dirPath, options);
-	}
-	else	{
-		fs.readdirSync(dirPath).forEach(function(subPath) {
-			var filePath = dirPath + '/' + subPath;
-			var fileStat = fs.statSync(filePath);
-			if(fileStat.isDirectory()) runDirectory(filePath, options);
-		});
-	}
-}
-
-function runServer(rootPath, options)	{
-	var server = cp.spawn('node', [options.server, options.port], {cwd: rootPath, customFds: [process.stdin.fd, process.stdout.fd, process.stderr.fd]});
+	var server = cp.spawn('node', [website.options.server, website.options.port], {cwd: website.rootPath, customFds: [process.stdin.fd, process.stdout.fd, process.stderr.fd]});
 	
 	server.on('exit', function (code, signal) {
 		assert.ifError(code);
+
+		next();
 	});
 	
 	setTimeout(function(){
-		walkServer(server, options);
-	}, options.startupDelay);
+		walkServer(server, website.options);
+	}, website.options.startupDelay);
+
 }
+
+
 
 function walkServer(server, options){
 	var history = [];
@@ -87,6 +63,45 @@ function walkServer(server, options){
 	}
 }
 
-runDirectory(path.normalize(__dirname + '/../examples/websites'), {});
+function loadDirectory(dirPath, options)	{
+	var extendOptionsJson = '{}';
+	try	{
+		extendOptionsJson = fs.readFileSync(dirPath + '.json', 'utf-8');
+	}
+	catch(ex)	{
+	}
+	var extendOptions = JSON.parse(extendOptionsJson);
+	var options = util.extend({}, options, extendOptions);
+	
+	var hasServer = false;
+	var serverPath = dirPath + '/' + options.server + '.js';
+	var serverStat = null;
+
+	try	{
+		var serverStat = fs.statSync(serverPath);
+	}
+	catch(ex)	{
+	}
+
+	if(serverStat && serverStat.isFile())	{
+		websites.push({
+			rootPath:	dirPath
+			, options:	options
+		});
+		return;
+	}
+
+	fs.readdirSync(dirPath).forEach(function(subPath) {
+		var filePath = dirPath + '/' + subPath;
+		var fileStat = fs.statSync(filePath);
+		if(fileStat.isDirectory()) loadDirectory(filePath, options);
+	});
+}
+
+
+
+loadDirectory(path.normalize(__dirname + '/../examples/websites'), {});
+
+next();
 
 
