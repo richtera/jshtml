@@ -19,3 +19,6 @@ app.get('/', function(req, res) {
 });
 
 app.listen(port);
+
+console.log('helloworld running at port ' + port);
+

@@ -1,0 +1,5 @@
+{
+	"port":	8080
+	, "server":	"server"
+	, "startupDelay":	1000
+}
