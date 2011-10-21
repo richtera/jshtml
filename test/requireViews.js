@@ -35,6 +35,5 @@ function runFile(filePath, options)	{
 	fn.call(options.scope, write, end, options.locals);	
 }
 
-runDirectory(path.normalize(__dirname + '/../examples', {}));
-
+runDirectory(path.normalize(__dirname + '/../examples/views', {}));
 

@@ -18,7 +18,7 @@ function runDirectory(dirPath, options)	{
 }
 
 function runFile(filePath, options)	{
-	var match = /((.*\/)?(.+))\.html$/i.exec(filePath);
+	var match = /((.*\/)?(.+))\.jshtml$/i.exec(filePath);
 	if (!match) return;
 
 	console.log('[' + match[3] + ']');
