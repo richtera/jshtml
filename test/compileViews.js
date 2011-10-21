@@ -18,7 +18,7 @@ function runDirectory(dirPath, options)	{
 }
 
 function runFile(filePath, options)	{
-	var match = /((.*\/)?(.+))\.html$/i.exec(filePath);
+	var match = /((.*\/)?(.+))\.jshtml$/i.exec(filePath);
 	if (!match) return;
 
 	console.log('[' + match[3] + ']');
@@ -28,12 +28,9 @@ function runFile(filePath, options)	{
 	}
 	catch(ex){}
 
-	function write() {}
-	function end() {}
-
-	jsHtml.renderAsync(write, end, fs.readFileSync(match[1] + '.jshtml', 'utf-8'), options);
+	jsHtml.compile(fs.readFileSync(match[1] + '.jshtml', 'utf-8'), options);
 }
 
-runDirectory(path.normalize(__dirname + '/../examples'), {});
+runDirectory(path.normalize(__dirname + '/../examples/views', {}));
 
 
