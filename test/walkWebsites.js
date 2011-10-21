@@ -53,19 +53,39 @@ function runServer(rootPath, options)	{
 }
 
 function walkServer(server, options){
-	walkUrl('http://localhost:' + options.port + '/', function(){
-		server.kill('SIGHUP');
-	});
-}
+	var history = [];
+	var pendingVisits = 0;
+	var rootUrl = 'http://localhost:' + options.port + '/';
 
-function walkUrl(url, cb)	{
-	zombie.visit(url, function (err, browser, status) {
-		console.log(url + '\t' + status);
-		assert.ifError(err);
-		//console.log(browser);
-		//console.log(browser.querySelectorAll('a'));
-		cb && cb();		
-	});
+	walkUrl(rootUrl) ;
+
+	function beginVisit()	{
+		pendingVisits++;
+	}
+	function endVisit()	{
+		pendingVisits--;
+		if(!pendingVisits) server.kill('SIGHUP');
+	}
+
+	function walkUrl(url)	{
+		if(url.substring(0, rootUrl.length) != rootUrl) return;
+		if(~history.indexOf(url)) return;
+		history.push(url);
+		beginVisit();
+		zombie.visit(url, function (err, browser, status) {
+			console.log(status + '\t' + url);
+			assert.ifError(err);
+		
+			//console.log(browser);
+			var links = browser.querySelectorAll('a');
+			var linkCount = links.length;
+			for(var linkIndex = 0; linkIndex < linkCount; linkIndex++)	{
+				var link = links[linkIndex];
+				walkUrl(link.href);
+			}
+			endVisit();
+		});
+	}
 }
 
 runDirectory(path.normalize(__dirname + '/../examples/websites'), {});
