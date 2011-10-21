@@ -60,6 +60,7 @@ function walkServer(server, options){
 
 function walkUrl(url, cb)	{
 	zombie.visit(url, function (err, browser, status) {
+		console.log(url + '\t' + status);
 		assert.ifError(err);
 		//console.log(browser.querySelectorAll('a'));
 		cb && cb();		

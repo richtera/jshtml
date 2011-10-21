@@ -8,7 +8,7 @@ var templateList	=	[];
 var templateIndex	=	0;
 var templateCount	=	templateList.length;
 
-var iterationCount	=	100;
+var iterationCount	=	20;
 var iterationIndex	=	0;
 
 var timeOffset;
