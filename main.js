@@ -13,6 +13,7 @@ var util = require('./lib/util');
 var cache = {};
 
 function compile(template, options) {
+
 	return function(locals)	{
 		var buffer = '';
 		var atEnd = false;
@@ -30,7 +31,7 @@ function compile(template, options) {
 		}
 		
 		compileAsync(template, options).call(this, write, end, locals);
-
+ 
 		assert.ok(atEnd, 'not ended');
 		
 		return buffer;
@@ -51,39 +52,27 @@ function render(template, options) {
 var cacheAsync = {};
 
 function compileAsync(template, options) {
-	var options = util.extend({with:null}, options);
 	var fnSrc = '';
 	var parser = new JsHtmlParser(function(data) {
 		fnSrc += data;
 	}, options);
 	parser.end(template);
 
-	if(options.with){
-		var contextList = Array.isArray(options.with)
+	if(options.with)	{
+		fnSrc = '{' + fnSrc + '}';
+		var contextList = Array.isArray()
 		? options.with
 		: [options.with]
 		;
-		
-		fnSrc = '{' + fnSrc + '}';
 		contextList.forEach(function(context){
-			if(typeof context == 'string')	{
-				fnSrc = 'with(' + context + ')' + fnSrc;
-			}
+			fnSrc = 'with(' + context + ')' + fnSrc;
 		});
 	}
-	
 
 	var fn = new Function('write', 'end', 'tag', 'writePartial', 'writeBody', 'util', 'locals', fnSrc);
 
 	return function(writeCallback, endCallback, locals) {
 
-		function write(){
-			writeCallback.apply(this, arguments);
-		}		
-		function end(){
-			endCallback.apply(this, arguments);
-		}		
-		
 		function tag(tagName) {
 			var tagAttributeSetList = [];
 			var tagContentList = [];
@@ -135,7 +124,7 @@ function compileAsync(template, options) {
 			writeCallback.call(this, locals.body);
 		}
 
-		fn.call(this, write, end, tag, writePartial, writeBody, util, locals);
+		fn.call(this, writeCallback, endCallback, tag, writePartial, writeBody, util, locals);
 	};
 }
 
