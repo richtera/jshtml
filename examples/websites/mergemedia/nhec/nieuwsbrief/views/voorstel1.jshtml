@@ -6,7 +6,6 @@
 <link rel="stylesheet" type="text/css" href="/resources/voorstel1.css" />
 </head>
 
-
 @with(locals.newsLetter)
 <text>
 <body>
@@ -21,7 +20,7 @@
 
 <div id="welcomeWrapper"><div id="welcome">
 <div id="hello">Hallo, @recipient.firstName</div>
-<div id="subject">dit is de nieuwsbrief van @date</div>
+<div id="subject">dit is de nieuwsbrief van @locals.globalize.format(date, 'M')</div>
 </div></div>
 
 <div id="wideColumnWrapper">

@@ -1,5 +1,7 @@
 var express = require('express');
 var jshtml = require('jshtml');
+var globalize = require('globalize');
+require('globalize/lib/cultures/globalize.cultures');
 
 var port = parseInt(process.argv.pop());
 var app = express.createServer();
@@ -14,9 +16,16 @@ app.set('view options', {
 	with:	'locals'
 	, layout:	false
 });
-app.get('/', function(req, res) {
+
+app.all('/', function(req, res, next)	{
+	console.log(req.headers['accept-language']);
+	next();
+});
+
+app.get('/', function(req, res, next) {
 	res.render('voorstel1', {
-		title:	'Nieuwsbrief'
+		globalize:	globalize
+		, title:	'Nieuwsbrief'
 		, newsLetter:	{
 			recipient:	{
 				firstName:	'Elmer'
