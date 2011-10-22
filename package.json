@@ -7,15 +7,12 @@
         "type": "git",
         "url": "git@github.com:LuvDaSun/jshtml.git"
     }]
-    , "main": "main.js"
-    , "scripts":	{
-        "build":	"build.js"
-        , "test":	"test.js"
-    }
+    , "main": "index.js"
     ,   "dependencies":	{
 	}
     ,   "devDependencies":	{
     	"zombie":	""
     	, "express":	""
+    	, "globalize":	""
 	}
 }

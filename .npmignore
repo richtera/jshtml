@@ -4,7 +4,5 @@ test.js
 build.js
 examples/
 test/
-node_modules/jshtml/
-node_modules/zombie/
-node_modules/express/
+node_modules/
 
