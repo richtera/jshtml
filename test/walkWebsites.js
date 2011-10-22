@@ -3,7 +3,6 @@ var zombie = require('zombie');
 var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
-var jsHtml = require('zombie');
 var util = require('../lib/util');
 
 var websites = [];

@@ -1,7 +1,7 @@
 var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
-var jsHtml = require('../main');
+var jsHtml = require('jshtml');
 var util = require('../lib/util');
 
 var templateList	=	[];
