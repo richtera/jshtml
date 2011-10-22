@@ -16,6 +16,10 @@
 	Yeah!
     </p>
 
+@if(false)
+	<img src="@stoer" class="Thumbnail" alt="@lief" />
+	
+
 </body>
 </html>
 

@@ -1,5 +1,8 @@
 var express = require('express');
 var jshtml = require('jshtml');
+var globalize = require('globalize');
+require('globalize/lib/cultures/globalize.cultures');
+globalize = globalize('nl');
 
 var port = parseInt(process.argv.pop());
 var app = express.createServer();
@@ -14,9 +17,15 @@ app.set('view options', {
 	with:	'locals'
 	, layout:	false
 });
-app.get('/', function(req, res) {
+
+app.all('/', function(req, res, next)	{
+	next();
+});
+
+app.get('/', function(req, res, next) {
 	res.render('voorstel1', {
-		title:	'Nieuwsbrief'
+		globalize:	globalize
+		, title:	'Nieuwsbrief'
 		, newsLetter:	{
 			recipient:	{
 				firstName:	'Elmer'
@@ -42,7 +51,7 @@ app.get('/', function(req, res) {
 				}
 				, {
 					title:	'Groene Stroom Windmolens'
-					, subTitle:	new Date()
+					, subTitle:	globalize.format(new Date(), 'D')
 					, thumbnail:	'/resources/_demo2.jpg'
 					, paragraphs:	[
 						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas ac turpis quis arcu ornare bibendum in varius justo. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque a tellus urna, ac volutpat leo. In porta, metus in convallis tincidunt, dolor tellus porta purus, sed facilisis ipsum lectus sed nibh.'

@@ -6,9 +6,7 @@
 <link rel="stylesheet" type="text/css" href="/resources/voorstel1.css" />
 </head>
 
-
 @with(locals.newsLetter)
-<text>
 <body>
 
 <div id="pageWrapper">
@@ -27,7 +25,6 @@
 <div id="wideColumnWrapper">
 
 @with(head)
-<text>
 <header>
 <img src="@image" alt="@title" />
 <div class="Text">
@@ -39,15 +36,13 @@
 <a href="">Actie &gt;</a>
 </nav>
 </header>
-</text>
 
 @articles.forEach(function(article, articleIndex) {
 	with(article)
-	<text>
 	<article class="@(articleIndex > 0 ? null : 'First')">
 		@{if(thumbnail)
 			<img src="@thumbnail" class="Thumbnail" alt="@title" />
-		}
+			}
 		<h2>@title</h2>
 		<h3>@subTitle</h3>
 		@paragraphs.forEach(function(paragraph, paragraphIndex)	{
@@ -59,76 +54,12 @@
 	</nav>
 
 	</article>	
-	</text>
 });
 
 
 <!--/div#wideColumnWrapper--></div
 ><div id="narrowColumnWrapper">
 
-<article>
-<h2>Nieuws
-<div class="Mask"></div>
-</h2>
-
-<nav>
-<ul>
-@newsLinks.forEach(function(newsLink, newsLinkIndex)	{
-	with(newsLink)
-	<li><a href="@href">@title &gt;</a></li>
-});
-</ul>
-</nav>
-<nav class="Happy">
-<a href="">Meer nieuws &gt;</a>
-</nav>
-</article>
-
-<article>
-<h2>
-Wij hebben u nodig!<br>
-<img src="/resources/_demo4.jpg" alt="Ik ben een blij kind" />
-<div class="Mask"></div>
-</h2>
-
-<nav class="Sunny">
-<a href="">Wordt nu ambassadeur &gt;</a>
-</nav>
-</article>
-
-<article>
-<h2>
-Energie besparen<br />
-<img src="/resources/_demo5.jpg" alt="Ik ben een stekker doos" />
-<div class="Mask"></div>
-</h2>
-
-<nav class="Sunny">
-<a href="">Ga naar onze bespaartips &gt;</a>
-</nav>
-</article>
-
-<article>
-<h2>Partners
-<div class="Mask"></div>
-</h2>
-<nav class="Icon">
-<a href="" target="_blank"><img src="/resources/_demo_icon.png" alt="Ik ben een zwart vlakje" /></a>
-<a href="" target="_blank"><img src="/resources/_demo_icon.png" alt="Ik ben een zwart vlakje" /></a>
-<a href="" target="_blank"><img src="/resources/_demo_icon.png" alt="Ik ben een zwart vlakje" /></a>
-</nav>
-</article>
-
-<article>
-<h2>Volg ons via
-<div class="Mask"></div>
-</h2>
-<nav class="Icon">
-<a href="" target="_blank"><img src="/resources/icon_rss.png" alt="RSS" /></a>
-<a href="" target="_blank"><img src="/resources/icon_facebook.png" alt="Facebook" /></a>
-<a href="" target="_blank"><img src="/resources/icon_twitter.png" alt="Twitter" /></a>
-</nav>
-</article>
 
 
 <!--/div#narrowColumnWrapper--></div>
@@ -142,6 +73,5 @@ Wij houden niet van spam. Wel willen we je informeren over onze ontwikkelingenWi
 </div>
 
 </body>
-</text>
 
 </html>
