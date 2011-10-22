@@ -5,6 +5,10 @@ keeps your html clean and allows you to use javascript in your templates.
 
 Check out the examples for more information.
 
+If you want to run the tests, be sure to install the dependencies first by using
+	
+	npm install
+	
 
 ## Installation
 	
@@ -89,7 +93,7 @@ Create a layout template (/views/layout.jshtml):
 	</head>
 	
 	<body>
-	@body();
+	@writeBody();
 	</body>
 	</html>
 
