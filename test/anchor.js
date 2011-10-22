@@ -14,7 +14,7 @@ should. Please let me know!
 
 var assert = require('assert');
 var fs = require('fs');
-var jsHtml = require('../main');
+var jsHtml = require('jshtml');
 
 (function at() {
 	console.log(arguments.callee);
