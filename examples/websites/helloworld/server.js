@@ -1,3 +1,5 @@
+var assert = require('assert');
+var sqlite = require('sqlite');
 var express = require('express');
 var jshtml = require('jshtml');
 
@@ -7,6 +9,7 @@ app.configure(function() {
 	app.use(express.bodyParser());
 	app.use(app.router);
 });
+
 
 app.set('view engine', 'jshtml');
 app.set('view options', {
@@ -29,8 +32,28 @@ app.get('/hello', function(req, res) {
 		, message:	'Helo, world!'
 	});
 });
+app.get('/words', function(req, res) {
 
-app.listen(port);
+	var sql = 'select id, word from words order by word;';
+	
+	res.render('message', {
+		title:	'Hello'
+		, words:	''
+	});
 
-console.log('helloworld running at port ' + port);
+});
+
+
+
+var db = new sqlite.Database();
+db.open(__dirname + '/helloworld.db', function (error) {
+	assert.ifError(error);
+
+	app.listen(port);
+	console.log('helloworld running at port ' + port);
+});
+
+
+
+
 
