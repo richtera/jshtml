@@ -29,31 +29,35 @@ app.get('/contact', function(req, res) {
 app.get('/hello', function(req, res) {
 	res.render('message', {
 		title:	'Hello'
-		, message:	'Helo, world!'
+		, message:	'Hello, world!'
 	});
 });
 app.get('/words', function(req, res) {
-
 	var sql = 'select id, word from words order by word;';
-	
-	res.render('message', {
-		title:	'Hello'
-		, words:	''
-	});
+	var db = new sqlite.Database();
+	db.open(__dirname + '/helloworld.db', function (error) {
+		assert.ifError(error);
+
+		db.execute(sql, function (error, rows) {
+			assert.ifError(error);
+
+			db.close(function(error)	{
+				assert.ifError(error);
+				
+				res.render('words', {
+					title:	'Hello'
+					, words:	rows
+				});
+			});
+		});
+
+    });
+
 
 });
 
-
-
-var db = new sqlite.Database();
-db.open(__dirname + '/helloworld.db', function (error) {
-	assert.ifError(error);
-
-	app.listen(port);
-	console.log('helloworld running at port ' + port);
-});
-
-
+app.listen(port);
+console.log('helloworld running at port ' + port);
 
 
 
