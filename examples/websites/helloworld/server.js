@@ -35,26 +35,37 @@ app.get('/hello', function(req, res) {
 app.get('/words', function(req, res) {
 	var sql = 'select id, word from words order by word;';
 	var db = new sqlite.Database();
-	db.open(__dirname + '/helloworld.db', function (error) {
+	var words;
+
+	function a()	{
+		db.open(__dirname + '/helloworld.db', b);
+	}
+
+	function b(error) {
 		assert.ifError(error);
 
-		db.execute(sql, function (error, rows) {
-			assert.ifError(error);
+		db.execute(sql, c);
+	}
 
-			db.close(function(error)	{
-				assert.ifError(error);
-				
-				res.render('words', {
-					title:	'Hello'
-					, words:	rows
-				});
-			});
+	function c(error, rows) {
+		assert.ifError(error);
+
+		words = rows;
+		db.close(d);
+	}
+
+	function d(error)	{
+		assert.ifError(error);
+	
+		res.render('words', {
+			title:	'Hello'
+			, words:	words
 		});
+	}
 
-    });
-
-
+	a();
 });
+
 
 app.listen(port);
 console.log('helloworld running at port ' + port);
