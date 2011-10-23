@@ -33,7 +33,6 @@ app.get('/hello', function(req, res) {
 	});
 });
 app.get('/words', function(req, res) {
-	var sql = 'select id, word from words order by word;';
 	var db = new sqlite.Database();
 	var words;
 
@@ -44,7 +43,7 @@ app.get('/words', function(req, res) {
 	function b(error) {
 		assert.ifError(error);
 
-		db.execute(sql, c);
+		db.execute('select id, word from words order by word;', c);
 	}
 
 	function c(error, rows) {
@@ -60,6 +59,39 @@ app.get('/words', function(req, res) {
 		res.render('words', {
 			title:	'Hello'
 			, words:	words
+		});
+	}
+
+	a();
+});
+
+app.get('/word/:id', function(req, res) {
+	var db = new sqlite.Database();
+	var word;
+
+	function a()	{
+		db.open(__dirname + '/helloworld.db', b);
+	}
+
+	function b(error) {
+		assert.ifError(error);
+
+		db.execute('select id, word from words where id = ?;', [req.params.id], c);
+	}
+
+	function c(error, rows) {
+		assert.ifError(error);
+
+		word = rows[0];
+		db.close(d);
+	}
+
+	function d(error)	{
+		assert.ifError(error);
+	
+		res.render('message', {
+			title:	word.word
+			, message:	word.id
 		});
 	}
 
