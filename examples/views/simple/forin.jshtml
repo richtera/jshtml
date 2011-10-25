@@ -10,13 +10,13 @@ var n = {one:'een', two:'twee', three:'drie'};
 
 @for(var key in n) {
     <text>
-	@(key)=@(n[key])<br />
+	@(key)=@(n[key])<br>
     </text>
     }
 
 @for(var key in n)
     <text>
-	@(key)=@(n[key])<br />
+	@(key)=@(n[key])<br>
     </text>
 
 </body>
