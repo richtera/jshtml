@@ -6,6 +6,8 @@ var util = require('../lib/util');
 
 var whitespaceRegex = /\s+/g;
 
+var doTests = process.argv.slice(2);
+
 function runDirectory(dirPath, options)	{
 	var extendOptionsJson = '{}';
 	try	{
@@ -28,8 +30,11 @@ function runFile(filePath, options)	{
 	var match = /((.*\/)?(.+))\.html$/i.exec(filePath);
 	if (!match) return;
 
-	console.log('[' + match[3] + ']');
+	if(doTests.length && !~doTests.indexOf(match[3]))	{
+		return;
+	}
 
+	console.log('[' + match[3] + ']');
 
 	var extendOptionsJson = '{}';
 	try	{
