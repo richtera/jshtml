@@ -17,7 +17,7 @@
 		</text>
 
 	<text>
-	Nested tags will be written to the output.
+	Nested tags will not be written to the output.
 	</text>
 	</text>
 else
