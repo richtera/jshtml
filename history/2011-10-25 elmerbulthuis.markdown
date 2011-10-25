@@ -108,6 +108,9 @@ gr.
 
 	
 
+Release
+----------
+
+release 0.2.1 to npm
 
 
-	
