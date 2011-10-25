@@ -21,7 +21,7 @@
 twee
 </text>
 		sync();
-	}, 10);
+	}, 100);
 }
 
 @async	{
@@ -30,7 +30,7 @@ twee
 drie
 </text>
 		sync();
-	}, 10);
+	}, 100);
 }
 
 </p>

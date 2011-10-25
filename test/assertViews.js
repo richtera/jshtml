@@ -45,8 +45,6 @@ function runFile(filePath, options)	{
 	var extendOptions = JSON.parse(extendOptionsJson);
 	var options = util.extend({}, options, extendOptions);
 
-
-
 	var expect = fs.readFileSync(match[1] + '.html', 'utf-8');
 	var actual = '';
 	function write(){
