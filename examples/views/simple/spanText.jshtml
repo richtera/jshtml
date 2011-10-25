@@ -1,0 +1,42 @@
+<html>
+<head>
+    <title>@locals.title</title>
+</head>
+
+<body>
+
+<span>
+
+<span>
+<span />
+</span>
+<span />
+<span />
+
+@if(true)
+	<text>
+	@if(true)
+		<text />
+	else
+		<text>
+		You should not see me! 
+		</text>
+
+	<text />
+	</text>
+else
+	<span>
+		You should not see me!<span />
+	</span>
+
+<text />
+<text />
+
+<span>
+<span />
+</span>
+
+</span>
+
+</body>
+</html>
