@@ -32,3 +32,11 @@ will still not work
 this will be fixed in the future!
 
 
+
+
+Release
+----------
+
+0.2.2 to npm
+
+
