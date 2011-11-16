@@ -9,11 +9,12 @@
     }]
     , "main": "index.js"
     ,   "dependencies":	{
+    	"2kenizer":	"*"
 	}
     ,   "devDependencies":	{
-    	"zombie":	""
-    	, "express":	""
-    	, "globalize":	""
-    	, "sqlite":	""
+    	"zombie":	"*"
+    	, "express":	"*"
+    	, "globalize":	"*"
+    	, "sqlite":	"*"
 	}
 }
