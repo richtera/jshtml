@@ -15,6 +15,5 @@
     	"zombie":	"*"
     	, "express":	"*"
     	, "globalize":	"*"
-    	, "sqlite":	"*"
 	}
 }
