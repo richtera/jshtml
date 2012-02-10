@@ -5,7 +5,7 @@
     , "author":	"Elmer Bulthuis <elmerbulthuis@gmail.com>"
     , "repositories":	[{
         "type": "git",
-        "url": "git@github.com:LuvDaSun/jshtml.git"
+        "url": "git@github.com:elmerbulthuis/jshtml.git"
     }]
     , "main": "index.js"
     ,   "dependencies":	{
