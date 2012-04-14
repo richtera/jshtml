@@ -8,14 +8,14 @@
 
 <p>
 
-@async	{
+@async(sync)	{
 <text>
 één
 </text>
 	sync();
 }
 
-@async	{
+@async(sync)	{
 	setTimeout(function(){
 <text>
 twee
@@ -24,7 +24,7 @@ twee
 	}, 100);
 }
 
-@async	{
+@async(sync)	{
 	setTimeout(function(){
 <text>
 drie
