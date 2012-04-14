@@ -50,6 +50,6 @@ function runFile(filePath, options)	{
 	jsHtml.renderAsync(write, end, fs.readFileSync(match[1] + '.jshtml', 'utf-8'), options);
 }
 
-runDirectory(path.normalize(__dirname + '/../examples/views'), {});
+runDirectory(path.normalize(__dirname + '/../examples/views/dev'), {});
 
 
