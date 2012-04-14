@@ -54,6 +54,7 @@ var cacheAsync = {};
 function compileAsync(template, options) {
 	var fnSrc = '';
 	var parser = new JsHtmlParser(function(data) {
+console.log(data);
 		fnSrc += data;
 	}, options);
 	parser.end(template);
