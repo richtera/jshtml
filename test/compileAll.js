@@ -3,6 +3,8 @@ var fs = require('fs');
 var jsHtml = require('jshtml');
 var tools = require('../lib/tools');
 
+var doTests = process.argv.slice(2);
+
 function runDirectory(dirPath, options)	{
 	var extendOptionsJson = '{}';
 	try	{
@@ -24,6 +26,10 @@ function runDirectory(dirPath, options)	{
 function runFile(filePath, options)	{
 	var match = /((.*\/)?(.+))\.jshtml$/i.exec(filePath);
 	if (!match) return;
+
+	if(doTests.length && !~doTests.indexOf(match[3]))	{
+		return;
+	}
 
 	console.log('[' + match[3] + ']');
 
