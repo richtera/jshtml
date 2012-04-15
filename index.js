@@ -8,7 +8,7 @@ var fs = require('fs');
 var assert = require('assert');
 var JsHtmlParser = require('./lib/jshtml/Parser');
 var tools = require('./lib/tools');
-
+var sjs = require('sjs');
 
 var cache = {};
 
@@ -54,7 +54,7 @@ var cacheAsync = {};
 function compileAsync(template, options) {
 	var fnSrc = '';
 	var parser = new JsHtmlParser(function(data) {
-console.log(data);
+//console.log(data);
 		fnSrc += data;
 	}, options);
 	parser.end(template);
@@ -70,7 +70,7 @@ console.log(data);
 		});
 	}
 
-	var fn = new Function('write', 'end', 'tag', 'writePartial', 'writeBody', 'tools', 'locals', fnSrc);
+	var fn = new Function('write', 'end', 'tag', 'writePartial', 'writeBody', 'tools', 'locals', sjs.parse(fnSrc));
 
 	return function(writeCallback, endCallback, locals) {
 

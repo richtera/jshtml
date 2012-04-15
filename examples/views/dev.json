@@ -1,5 +1,7 @@
 {
-	"scope": {
+	"debug": true
+	, "trace": true
+	, "scope": {
 		"title": "This"
 		, "numberList": {
 			"one": "één"
