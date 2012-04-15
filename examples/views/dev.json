@@ -28,6 +28,7 @@
 	    	, {"id": 6, "name": "Gup", "price": 19.5 }
 	    ]
 	}
+	, "with": "locals"
 }
 
 
