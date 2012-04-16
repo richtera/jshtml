@@ -70,7 +70,9 @@ function compileAsync(template, options) {
 		});
 	}
 
-	var fn = new Function('write', 'end', 'tag', 'writePartial', 'writeBody', 'tools', 'locals', sjs.parse(fnSrc));
+	console.log(fnSrc);
+
+	var fn = new Function('write', 'end', 'tag', 'writePartial', 'writeBody', 'tools', 'locals', sjs.parse(fnSrc, options));
 
 	return function(writeCallback, endCallback, locals) {
 
