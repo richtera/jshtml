@@ -2,7 +2,7 @@ var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
 var jsHtml = require('jshtml');
-var util = require('../lib/util');
+var tools = require('../lib/tools');
 
 var whitespaceRegex = /\s+/g;
 
@@ -16,7 +16,7 @@ function runDirectory(dirPath, options)	{
 	catch(ex)	{
 	}
 	var extendOptions = JSON.parse(extendOptionsJson);
-	var options = util.extend({}, options, extendOptions);
+	var options = tools.extend({}, options, extendOptions);
 	
 	fs.readdirSync(dirPath).forEach(function(subPath) {
 		var filePath = dirPath + '/' + subPath;
@@ -43,7 +43,7 @@ function runFile(filePath, options)	{
 	catch(ex)	{
 	}
 	var extendOptions = JSON.parse(extendOptionsJson);
-	var options = util.extend({}, options, extendOptions);
+	var options = tools.extend({}, options, extendOptions);
 
 	var expect = fs.readFileSync(match[1] + '.html', 'utf-8');
 	var actual = '';
@@ -51,7 +51,7 @@ function runFile(filePath, options)	{
 		var argumentCount = arguments.length;
 		for(var argumentIndex = 0; argumentIndex < argumentCount; argumentIndex++){
 			var argument = arguments[argumentIndex];
-			actual += util.str(argument);
+			actual += tools.str(argument);
 		}
 	}
 	function end(){

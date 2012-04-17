@@ -1,11 +1,9 @@
-<!DOCTYPE html>
+@with({title:"Yo"}){
 <html>
 <head>
-<title></title>
+<title>@title</title>
 </head>
-
 <body>
-<br />
-
 </body>
 </html>
+}

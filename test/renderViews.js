@@ -1,7 +1,9 @@
 var path = require('path');
 var fs = require('fs');
 var jsHtml = require('jshtml');
-var util = require('../lib/util');
+var tools = require('../lib/tools');
+
+var doTests = process.argv.slice(2);
 
 function runDirectory(dirPath, options)	{
 	var extendOptionsJson = '{}';
@@ -11,7 +13,7 @@ function runDirectory(dirPath, options)	{
 	catch(ex)	{
 	}
 	var extendOptions = JSON.parse(extendOptionsJson);
-	var options = util.extend({}, options, extendOptions);
+	var options = tools.extend({}, options, extendOptions);
 	
 	fs.readdirSync(dirPath).forEach(function(subPath) {
 		var filePath = dirPath + '/' + subPath;
@@ -25,6 +27,10 @@ function runFile(filePath, options)	{
 	var match = /((.*\/)?(.+))\.jshtml$/i.exec(filePath);
 	if (!match) return;
 
+	if(doTests.length && !~doTests.indexOf(match[3]))	{
+		return;
+	}
+
 	console.log('[' + match[3] + ']');
 
 
@@ -35,7 +41,7 @@ function runFile(filePath, options)	{
 	catch(ex)	{
 	}
 	var extendOptions = JSON.parse(extendOptionsJson);
-	var options = util.extend({}, options, extendOptions);
+	var options = tools.extend({}, options, extendOptions);
 
 
 	function write() {}

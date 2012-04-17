@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title></title>
+<title>if2</title>
 </head>
 
 <body>
 
-@{{
-<br />
-}}
+@{
+if(true)
+<p>
+Yeah!
+</p>
+}
 
 </body>
 </html>
+

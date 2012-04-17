@@ -1,5 +1,9 @@
 {
-	"locals":	{
+	"debug": true
+	, "trace": false
+
+
+	, "locals":	{
     	"title":"Async"
 	}
 }

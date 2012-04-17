@@ -6,9 +6,9 @@
 
 var fs = require('fs');
 var assert = require('assert');
-var JsHtmlParser = require('./lib/JsHtmlParser');
-var util = require('./lib/util');
-
+var JsHtmlParser = require('./lib/jshtml/Parser');
+var tools = require('./lib/tools');
+var sjs = require('sjs');
 
 var cache = {};
 
@@ -22,7 +22,7 @@ function compile(template, options) {
 			var argumentCount = arguments.length;
 			for(var argumentIndex = 0; argumentIndex < argumentCount; argumentIndex++){
 				var argument = arguments[argumentIndex];
-				buffer += util.str(argument);
+				buffer += tools.str(argument);
 			}
 		}
 		function end()	{
@@ -39,7 +39,7 @@ function compile(template, options) {
 }
 
 function render(template, options) {
-	var options = util.extend({}, options);
+	var options = tools.extend({}, options);
 	var fn = options.filename 
 		? (cache[options.filename] || (cache[options.filename] = compile(template, options)))
 		: compile(template, options)
@@ -54,6 +54,7 @@ var cacheAsync = {};
 function compileAsync(template, options) {
 	var fnSrc = '';
 	var parser = new JsHtmlParser(function(data) {
+//console.log(data);
 		fnSrc += data;
 	}, options);
 	parser.end(template);
@@ -69,7 +70,9 @@ function compileAsync(template, options) {
 		});
 	}
 
-	var fn = new Function('write', 'end', 'tag', 'writePartial', 'writeBody', 'util', 'locals', fnSrc);
+	console.log(fnSrc);
+
+	var fn = new Function('write', 'end', 'tag', 'writePartial', 'writeBody', 'tools', 'locals', sjs.parse(fnSrc, options));
 
 	return function(writeCallback, endCallback, locals) {
 
@@ -93,7 +96,7 @@ function compileAsync(template, options) {
 
 			writeCallback.call(this, '<', tagName);
 			tagAttributeSetList.forEach(function(tagAttributeSet) {
-				writeCallback.call(this, ' ', util.htmlAttributeEncode(tagAttributeSet));
+				writeCallback.call(this, ' ', tools.htmlAttributeEncode(tagAttributeSet));
 			});
 			if(hasContent) {
 				writeCallback.call(this, '>');
@@ -105,7 +108,7 @@ function compileAsync(template, options) {
 						break;
 
 						default:
-						writeCallback.call(this, util.htmlLiteralEncode(tagContent));
+						writeCallback.call(this, tools.htmlLiteralEncode(tagContent));
 					}
 				});
 
@@ -124,12 +127,12 @@ function compileAsync(template, options) {
 			writeCallback.call(this, locals.body);
 		}
 
-		fn.call(this, writeCallback, endCallback, tag, writePartial, writeBody, util, locals);
+		fn.call(this, writeCallback, endCallback, tag, writePartial, writeBody, tools, locals);
 	};
 }
 
 function renderAsync(writeCallback, endCallback, template, options) {
-	var options = util.extend({}, options);
+	var options = tools.extend({}, options);
 	var fn = options.filename 
 		? (cacheAsync[options.filename] || (cacheAsync[options.filename] = compileAsync(template, options)))
 		: compileAsync(template, options)

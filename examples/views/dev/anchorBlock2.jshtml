@@ -6,9 +6,11 @@
 
 <body>
 
-@{{
-<br />
+@{
+{{
+write("yeah");
 }}
+}
 
 </body>
 </html>

@@ -3,13 +3,14 @@
     , "description":	"razor template engine"
     , "version":	"0.2.3"
     , "author":	"Elmer Bulthuis <elmerbulthuis@gmail.com>"
-    , "repositories":	[{
-        "type": "git",
-        "url": "git@github.com:elmerbulthuis/jshtml.git"
-    }]
+    , "repositories":	[
+        {"type": "git", "url": "git@github.com:elmerbulthuis/jshtml.git"}
+        , {"type": "git", "url": "git@bitbucket.com:elmerbulthuis/jshtml.git"}
+        ]
     , "main": "index.js"
     ,   "dependencies":	{
-    	"2kenizer":	"0.0.7"
+        "2kenizer": "*"
+        , "sjs": "*"
 	}
     ,   "devDependencies":	{
     	"zombie":	"*"

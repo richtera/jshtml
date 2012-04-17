@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+@{
+var message = "oega-boega";
+}
 <html>
 <head>
 <title>Test</title>
@@ -6,10 +9,9 @@
 
 <body>
 
-<h1>Test</h1>
-
-<p>
-</p>
+@{{
+	<a href=""><b><i>@message</a>
+}}
 
 </body>
 </html>

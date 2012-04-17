@@ -6,9 +6,8 @@
 
 <body>
 
-@{{
-<br />
-}}
+@write("-=<({");
+@write("})=-");
 
 </body>
 </html>
