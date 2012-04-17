@@ -31,7 +31,7 @@ function runFile(filePath, options)	{
 		return;
 	}
 
-	console.log('[' + match[3] + ']');
+	console.log('[' + match[0] + ']');
 
 
 	var extendOptionsJson = '{}';

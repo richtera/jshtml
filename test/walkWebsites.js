@@ -3,7 +3,7 @@ var zombie = require('zombie');
 var assert = require('assert');
 var path = require('path');
 var fs = require('fs');
-var util = require('../lib/util');
+var tools = require('../lib/tools');
 
 var websites = [];
 
@@ -71,7 +71,7 @@ function loadDirectory(dirPath, options)	{
 	catch(ex)	{
 	}
 	var extendOptions = JSON.parse(extendOptionsJson);
-	var options = util.extend({}, options, extendOptions);
+	var options = tools.extend({}, options, extendOptions);
 	
 	var hasServer = false;
 	var serverPath = dirPath + '/' + options.server + '.js';
