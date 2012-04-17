@@ -1,0 +1,12 @@
+{
+	"trace":	true
+	
+	, "with":	["locals"]
+
+	, "locals": {
+    	"title":	"Title"
+	}
+
+}
+
+

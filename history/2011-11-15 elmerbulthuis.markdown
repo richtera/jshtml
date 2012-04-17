@@ -15,7 +15,7 @@ now using 2kenizer, an efficient tokenizer
 Breaking change
 ----------
 
-async not working anymore! will fix that soon! temporary disabled async tests
+async not working anymore! will fix that soon! temporary removed async features
 
 
 

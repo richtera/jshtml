@@ -1,8 +1,12 @@
+<!DOCTYPE html>
 <html>
 <head>
-<title>:::locals.title</title>
+@{
+<title>Test</title>
+}
 </head>
 
 <body>
+
 </body>
 </html>
