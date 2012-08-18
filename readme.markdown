@@ -17,6 +17,8 @@ If you want to run the tests, be sure to install the devDependencies first by us
 
 ## Example
 
+index.jshtml :
+
 	<html>
 	<head>
 		<title>@locals.title</title>
@@ -25,20 +27,17 @@ If you want to run the tests, be sure to install the devDependencies first by us
 	<body>
 	
 	<ul class="Task">
-	@locals.taskList.forEach(function(task, index) {
-		<li class="@(index % 2 ? "Odd" : "Even")">
-		@tag('a', {href: '/task/' + task.id}, task.name)
-		</li>
+		@locals.taskList.forEach(function(task, index) {
+			<li class="@(index % 2 ? "Odd" : "Even")">
+				@tag('a', {href: '/task/' + task.id}, task.name)
+			</li>
 		});
 	</ul>
 	
 	<ul class="Task">
-	@for(var taskIndex = 0, taskCount = locals.taskList.length; taskIndex < taskCount; taskIndex ++){
-		var task = locals.taskList[taskIndex];
-		<li class="@(taskIndex % 2 ? "Odd" : "Even")">
-		<a href="/task/@task.id">@task.name</a>
-		</li>
-	}
+		@for(var taskIndex = 0, taskCount = locals.taskList.length; taskIndex < taskCount; taskIndex ++){
+			writePartial('task', {taskIndex: taskIndex, task: locals.taskList[taskIndex]});
+		}
 	</ul>
 	
 	<p>
@@ -48,6 +47,16 @@ If you want to run the tests, be sure to install the devDependencies first by us
 	
 	</body>
 	</html>
+
+
+task.jshtml :
+
+<li class="@(taskIndex % 2 ? "Odd" : "Even")">
+	@tag('a', {href: '/task/' + task.id}, task.name)
+</li>
+
+
+Note : partials work also with the 'forEach' method.
 
 Also check out the examples in the examples folder!
 
