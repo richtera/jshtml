@@ -149,7 +149,7 @@ require.extensions['.jshtml'] = function(module, fileName) {
 
 //exports
 exports.compileAsync = compileAsync;
-exports.renderAsync = renderAsync;
+exports.renderAsync = exports.__express = renderAsync;
 exports.compile = compile;
 exports.render = render;
 
